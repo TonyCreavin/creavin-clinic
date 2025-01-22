@@ -15,8 +15,9 @@ function Homepage() {
           home. We are here to help you get better and live a healthy life.
         </p>
 
-        <div className="flex gap-5">
+        <div className="flex gap-5 flex-wrap">
           <Button href="/services">View our services</Button>
+          <Button href="/appointment-confirmation">View appointments</Button>
           <Button href="/book-appointment" type="primary" className="mb-5">
             Book an appointment
           </Button>

@@ -4,6 +4,7 @@ import DoctorModel from '@/models/doctor-models';
 import dayjs from 'dayjs';
 import { IPatient } from '@/interfaces';
 import PatientModel from '@/models/patient-model';
+import { revalidatePath } from 'next/cache';
 
 export const checkDoctorsAvailibility = async ({
   date,
@@ -15,9 +16,11 @@ export const checkDoctorsAvailibility = async ({
   specialist: string;
 }) => {
   try {
-    const bookedDoctorIds = await DoctorModel.find({ date, time }).distinct(
-      'doctors'
-    );
+    const bookedDoctorIds = await DoctorModel.find({
+      date,
+      time,
+      status: 'approved',
+    }).distinct('doctors');
 
     const availableDoctors = await DoctorModel.find({
       _id: { $nin: bookedDoctorIds },
@@ -93,6 +96,48 @@ export const getAppointmentById = async (id: string) => {
       .populate('doctor')
       .populate('patient');
 
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(appointment)),
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+export const getAllAppointments = async () => {
+  try {
+    const appointments = await AppointmentModel.find()
+      .populate('doctor')
+      .populate('patient')
+      .sort({ createdAt: -1 });
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(appointments)),
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+export const updateAppointmentStatus = async ({
+  appointmentId,
+  status,
+}: {
+  appointmentId: string;
+  status: string;
+}) => {
+  try {
+    const appointment = await AppointmentModel.findByIdAndUpdate(
+      appointmentId,
+      { status },
+      { new: true }
+    );
+    revalidatePath('/admin/appointments');
     return {
       success: true,
       data: JSON.parse(JSON.stringify(appointment)),
