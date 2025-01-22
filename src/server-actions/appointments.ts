@@ -87,3 +87,20 @@ export const saveAppointment = async ({
     };
   }
 };
+export const getAppointmentById = async (id: string) => {
+  try {
+    const appointment = await AppointmentModel.findById(id)
+      .populate('doctor')
+      .populate('patient');
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(appointment)),
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
