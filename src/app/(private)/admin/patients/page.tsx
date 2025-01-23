@@ -1,9 +1,10 @@
 import PageTitle from '@/components/page-title';
 import { getAllPatients } from '@/server-actions/patients';
 import { Alert } from 'antd';
-import React from 'react';
+import React, { Suspense } from 'react';
 import PatientsTable from './_components/patients-table';
 import { IPatient } from '@/interfaces';
+import Spinner from '@/components/spinner';
 
 async function PatientsList() {
   const { success, data } = await getAllPatients();
@@ -23,4 +24,16 @@ async function PatientsList() {
   );
 }
 
-export default PatientsList;
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-screen">
+          <Spinner />
+        </div>
+      }
+    >
+      <PatientsList />
+    </Suspense>
+  );
+}
