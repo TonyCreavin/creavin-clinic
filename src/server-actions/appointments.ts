@@ -149,3 +149,19 @@ export const updateAppointmentStatus = async ({
     };
   }
 };
+export const getAppointmentByPatientId = async (patientId: string) => {
+  try {
+    const appointments = await AppointmentModel.find({ patient: patientId })
+      .populate('doctor')
+      .sort({ createdAt: -1 });
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(appointments)),
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};

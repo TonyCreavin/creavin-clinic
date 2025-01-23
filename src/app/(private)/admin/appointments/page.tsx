@@ -7,8 +7,7 @@ import AppointmentsTable from './_components/appointments-table';
 async function AppointmentListPage() {
   const { success, data } = await getAllAppointments();
   if (!success) {
-    return;
-    <Alert message="Failed to get appointments" type="error" showIcon />;
+    return <Alert message="Failed to get appointments" type="error" showIcon />;
   }
   const appointments = data;
   return (

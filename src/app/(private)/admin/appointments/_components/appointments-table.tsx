@@ -23,7 +23,7 @@ function AppointmentsTable({ appointments }: AppointmentsTableProps) {
     {
       title: 'Patient Name',
       dataIndex: 'patient',
-      render: (patient: IPatient) => patient.name,
+      render: (patient: IPatient) => patient?.name,
     },
     {
       title: 'Doctor Name',
