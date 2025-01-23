@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import PageTitle from '@/components/page-title';
 import { getAllUsers } from '@/server-actions/users';
 import { Alert } from 'antd';
 import { IUser } from '@/interfaces';
 import UsersTable from './_components/users-table';
+import Spinner from '@/components/spinner';
 
 async function UsersPage() {
   const { success, data } = await getAllUsers();
@@ -24,4 +25,16 @@ async function UsersPage() {
   );
 }
 
-export default UsersPage;
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-screen">
+          <Spinner />
+        </div>
+      }
+    >
+      <UsersPage />
+    </Suspense>
+  );
+}
