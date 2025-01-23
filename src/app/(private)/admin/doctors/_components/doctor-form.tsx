@@ -6,7 +6,6 @@ import { Button, Form, Input, Select, Upload, message } from 'antd';
 import { addDoctor, updateDoctor } from '@/server-actions/doctors';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { url } from 'inspector';
 
 interface DoctorFormProps {
   type?: 'add' | 'edit';

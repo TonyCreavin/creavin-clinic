@@ -41,3 +41,7 @@ export const workHours = [
   { label: '17:30', value: '17:30' },
   { label: '18:00', value: '18:00' },
 ];
+export const gender = [
+  { label: 'Male', value: 'Male' },
+  { label: 'Female', value: 'Female' },
+];
