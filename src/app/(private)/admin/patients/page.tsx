@@ -1,13 +1,21 @@
 import PageTitle from '@/components/page-title';
 import { getAllPatients } from '@/server-actions/patients';
 import { Alert } from 'antd';
-import React, { Suspense } from 'react';
+import React from 'react';
 import PatientsTable from './_components/patients-table';
 import { IPatient } from '@/interfaces';
-import Spinner from '@/components/spinner';
+import FilterPatients from './_components/filter-patients';
 
-async function PatientsList() {
-  const { success, data } = await getAllPatients();
+interface PatientsListProps {
+  searchParams: {
+    name: string;
+    phone: string;
+    gender: string;
+  };
+}
+
+async function PatientsList({ searchParams }: PatientsListProps) {
+  const { success, data } = await getAllPatients(searchParams);
   if (!success) {
     return <Alert message="Error retrieving data" type="error" showIcon />;
   }
@@ -18,22 +26,10 @@ async function PatientsList() {
   return (
     <div className="p-5">
       <PageTitle title="Patients" />
-
+      <FilterPatients />
       <PatientsTable patients={patients} />
     </div>
   );
 }
 
-export default function Page() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex justify-center items-center h-screen">
-          <Spinner />
-        </div>
-      }
-    >
-      <PatientsList />
-    </Suspense>
-  );
-}
+export default PatientsList;

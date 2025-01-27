@@ -5,9 +5,18 @@ import { IDoctor } from '@/interfaces';
 import Link from 'next/link';
 import React from 'react';
 import DoctorsTable from './_components/doctors-table';
+import FilterDoctor from './_components/filter-doctors';
 
-async function DoctorsPage() {
-  const { success, data } = await getDoctors();
+interface DoctorsPageProps {
+  searchParams: {
+    search: string;
+    speciality: string;
+    phone: string;
+  };
+}
+
+async function DoctorsPage({ searchParams }: DoctorsPageProps) {
+  const { success, data } = await getDoctors(searchParams);
   if (!success) {
     return <Alert message="Error retrieving data" showIcon />;
   }
@@ -22,6 +31,7 @@ async function DoctorsPage() {
           <Link href="/admin/doctors/new">Add Doctor</Link>
         </Button>
       </div>
+      <FilterDoctor />
       <DoctorsTable doctors={doctors} />
     </div>
   );

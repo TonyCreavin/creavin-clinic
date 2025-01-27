@@ -9,6 +9,9 @@ import CancelAppointmentModal from './cancel-appointment-modal';
 
 interface AppointmentsTableProps {
   appointments: IAppointment[];
+  patient: object;
+  doctor: object;
+  specialist: string;
 }
 
 function AppointmentsTable({ appointments }: AppointmentsTableProps) {
@@ -24,16 +27,31 @@ function AppointmentsTable({ appointments }: AppointmentsTableProps) {
       title: 'Patient Name',
       dataIndex: 'patient',
       render: (patient: IPatient) => patient?.name,
+      sorter: (a: IAppointment, b: IAppointment) => {
+        const A = a.patient?.name?.toString() || ''; // Access patient name safely
+        const B = b.patient?.name?.toString() || '';
+        return A.localeCompare(B); // Compare strings safely
+      },
     },
     {
       title: 'Doctor Name',
       dataIndex: 'doctor',
       render: (doctor: IDoctor) => doctor.name,
+      sorter: (a: IAppointment, b: IAppointment) => {
+        const A = a.doctor?.name?.toString() || ''; // Access patient name safely
+        const B = b.doctor?.name?.toString() || '';
+        return A.localeCompare(B); // Compare strings safely
+      },
     },
     {
       title: 'Specialist',
       dataIndex: 'specialist',
       render: (specialist: string) => specialist.toUpperCase(),
+      sorter: (a: IAppointment, b: IAppointment) => {
+        const A = a.specialist;
+        const B = b.specialist;
+        return A.localeCompare(B);
+      },
     },
     {
       title: 'Date & Time',
