@@ -3,9 +3,25 @@ import { revalidatePath } from 'next/cache';
 import PatientModel from '../models/patient-model';
 import { IPatient } from '@/interfaces';
 
-export const getAllPatients = async () => {
+export const getAllPatients = async (searchParams: {
+  name: string;
+  phone: string;
+  gender: string;
+}) => {
   try {
-    const patients = await PatientModel.find().sort({ createdAt: -1 });
+    let filtersToApply: any = {};
+    if (searchParams.name) {
+      filtersToApply.name = { $regex: searchParams.name, $options: 'i' };
+    }
+    if (searchParams.phone) {
+      filtersToApply.phone = searchParams.phone;
+    }
+    if (searchParams.gender) {
+      filtersToApply.gender = searchParams.gender;
+    }
+    const patients = await PatientModel.find(filtersToApply).sort({
+      createdAt: -1,
+    });
     return {
       success: true,
       data: JSON.parse(JSON.stringify(patients)),

@@ -5,9 +5,18 @@ import { Alert } from 'antd';
 import { IUser } from '@/interfaces';
 import UsersTable from './_components/users-table';
 import Spinner from '@/components/spinner';
+import FilterUsers from './_components/filter-users';
 
-async function UsersPage() {
-  const { success, data } = await getAllUsers();
+interface UsersPageProps {
+  searchParams: {
+    name: string;
+    email: string;
+    isApproved: boolean;
+  };
+}
+
+async function UsersPage({ searchParams }: UsersPageProps) {
+  const { success, data } = await getAllUsers(searchParams);
 
   if (!success) {
     return <Alert message="Error retrieving data" showIcon />;
@@ -19,22 +28,10 @@ async function UsersPage() {
   return (
     <div className="p-5">
       <PageTitle title="Users" />
-
+      <FilterUsers />
       <UsersTable users={users} />
     </div>
   );
 }
 
-export default function Page() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex justify-center items-center h-screen">
-          <Spinner />
-        </div>
-      }
-    >
-      <UsersPage />
-    </Suspense>
-  );
-}
+export default UsersPage;

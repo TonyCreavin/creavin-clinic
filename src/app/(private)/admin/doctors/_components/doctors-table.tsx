@@ -7,6 +7,12 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { deleteDoctor } from '@/server-actions/doctors';
 
+interface DataType {
+  specializations: string[] | null | undefined;
+  name?: string;
+  [key: string]: any;
+}
+
 function DoctorsTable({ doctors }: { doctors: IDoctor[] }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -26,15 +32,32 @@ function DoctorsTable({ doctors }: { doctors: IDoctor[] }) {
     }
   };
   const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Phone', dataIndex: 'phone', key: 'phone' },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      sorter: (a: DataType, b: DataType) => {
+        const A = a.name?.toUpperCase() || ' ';
+        const B = b.name?.toUpperCase() || ' ';
+        return A.localeCompare(B);
+      },
+    },
     {
       title: 'Specialization',
       dataIndex: 'specializations',
       key: 'specializations',
       render: (specializations: string[]) => specializations.join(','),
+      sorter: (a: DataType, b: DataType) => {
+        const specializationsA =
+          a.specializations?.join(', ')?.toUpperCase() || '';
+        const specializationsB =
+          b.specializations?.join(', ')?.toUpperCase() || '';
+        return specializationsA.localeCompare(specializationsB);
+      },
     },
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Phone', dataIndex: 'phone', key: 'phone', sorter: true },
+
     { title: 'Fee', dataIndex: 'fee', key: 'fee' },
     {
       title: 'Date Added',

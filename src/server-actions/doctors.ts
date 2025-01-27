@@ -3,7 +3,6 @@
 import DoctorModel from '@/models/doctor-models';
 import { IDoctor } from '@/interfaces';
 import { revalidatePath } from 'next/cache';
-import { message } from 'antd';
 
 export const addDoctor = async (payload: Partial<IDoctor>) => {
   try {
@@ -20,9 +19,29 @@ export const addDoctor = async (payload: Partial<IDoctor>) => {
     };
   }
 };
-export const getDoctors = async () => {
+export const getDoctors = async (searchParams: {
+  search: string;
+  speciality: string;
+  phone: string;
+}) => {
   try {
-    const doctors = await DoctorModel.find().sort({ createdAt: -1 });
+    let filtersToApply: any = {};
+
+    if (searchParams.search) {
+      filtersToApply.name = { $regex: searchParams.search, $options: 'i' };
+    }
+    if (searchParams.speciality) {
+      filtersToApply.specializations = {
+        $in: [searchParams.speciality],
+      };
+    }
+    if (searchParams.phone) {
+      filtersToApply.phone = searchParams.phone;
+    }
+
+    const doctors = await DoctorModel.find(filtersToApply).sort({
+      createdAt: -1,
+    });
     return {
       success: true,
       data: JSON.parse(JSON.stringify(doctors)),
