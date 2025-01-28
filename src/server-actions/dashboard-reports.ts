@@ -41,3 +41,32 @@ export const getDashboardData = async () => {
     };
   }
 };
+export const getReportData = async ({
+  fromDate,
+  toDate,
+}: {
+  fromDate: string;
+  toDate: string;
+}) => {
+  try {
+    const appointments = await AppointmentModel.find({
+      date: { $gte: fromDate, $lte: toDate },
+    })
+      .populate('patient')
+      .populate('doctor');
+
+    return {
+      success: true,
+      data: {
+        appointmentsCount: appointments.length,
+        feeCollected: appointments.reduce((acc, curr) => acc + curr.fee, 0),
+        appointmentsData: JSON.parse(JSON.stringify(appointments)),
+      },
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};

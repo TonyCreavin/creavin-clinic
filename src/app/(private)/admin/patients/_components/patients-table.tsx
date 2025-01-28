@@ -11,6 +11,9 @@ import PatientAppointmentModal from './patient-appointment-modal';
 interface PatientsTableProps {
   patients: IPatient[];
 }
+interface Datatype {
+  name: string;
+}
 
 function PatientsTable({ patients }: PatientsTableProps) {
   const [showPatientAppointmentModal, setShowPatientAppointmentModal] =
@@ -38,6 +41,11 @@ function PatientsTable({ patients }: PatientsTableProps) {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      sorter: (a: Datatype, b: Datatype) => {
+        const A = a.name.toUpperCase() || '';
+        const B = b.name.toUpperCase() || '';
+        return A.localeCompare(B);
+      },
     },
     {
       title: 'Email',
