@@ -28,7 +28,7 @@ function FilterUsers() {
   };
 
   return (
-    <div className="grid lg:grid-cols-4 gap-5 items-end">
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 items-end">
       <div className="flex flex-col">
         <label htmlFor="Name" className="text-sm">
           Name

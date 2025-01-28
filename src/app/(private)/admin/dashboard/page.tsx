@@ -14,7 +14,7 @@ async function Dashboard() {
   return (
     <div className="p-5 flex flex-col gap-5">
       <PageTitle title="Dashboard" />
-      <div className="grid grid-cols-4 gap-5 mt-2">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mt-2">
         <DashboardCard
           title="Today's Appointments"
           value={data?.todayAppointmentsCount || 0}
