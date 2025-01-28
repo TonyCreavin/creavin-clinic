@@ -17,7 +17,10 @@ function PatientDetails({
       </h1>
       <Form layout="vertical" className="mt-5">
         <div className="grid grid-cols-4 gap-5">
-          <Form.Item label="Name">
+          <Form.Item
+            label="Name"
+            className="col-span-4 md:col-span-2 lg:col-span-1"
+          >
             <Input
               value={patientDetails.name}
               onChange={(e) =>
@@ -25,7 +28,7 @@ function PatientDetails({
               }
             />
           </Form.Item>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-2 gap-5 col-span-4 md:col-span-2 lg:col-span-1 ">
             <Form.Item label="Age">
               <Input
                 type="number"
@@ -54,7 +57,10 @@ function PatientDetails({
               />
             </Form.Item>
           </div>
-          <Form.Item label="Email">
+          <Form.Item
+            label="Email"
+            className="col-span-4 md:col-span-2 lg:col-span-1"
+          >
             <Input
               value={patientDetails.email}
               onChange={(e) =>
@@ -62,7 +68,10 @@ function PatientDetails({
               }
             />
           </Form.Item>
-          <Form.Item label="Phone">
+          <Form.Item
+            label="Phone"
+            className="col-span-4 md:col-span-2 lg:col-span-1"
+          >
             <Input
               value={patientDetails.phone}
               onChange={(e) =>
