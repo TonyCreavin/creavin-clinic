@@ -7,6 +7,15 @@ import { IAppointment } from '@/interfaces';
 import AppointmentReceipt from './_components/appointments-receipt';
 import { useReactToPrint } from 'react-to-print';
 import { useSearchParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+const LazyAppointmentReceipt = dynamic(
+  () => import('./_components/appointments-receipt'),
+  {
+    loading: () => <div>Loading receipt...</div>,
+    ssr: false,
+  }
+);
 
 function AppointmentConfirmation() {
   const searchParams = useSearchParams();
@@ -61,7 +70,7 @@ function AppointmentConfirmation() {
       </div>
       <div ref={contentRef} className="flex justify-center mt-5">
         <div className="w-[600px]">
-          {appointment && <AppointmentReceipt appointment={appointment} />}
+          {appointment && <LazyAppointmentReceipt appointment={appointment} />}
         </div>
       </div>
       {appointment && (
