@@ -1,12 +1,13 @@
 'use client';
 import PageTitle from '@/components/page-title';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import { Button, Input, message } from 'antd';
 import { getAppointmentById } from '@/server-actions/appointments';
 import { IAppointment } from '@/interfaces';
 import AppointmentReceipt from './_components/appointments-receipt';
 import { useReactToPrint } from 'react-to-print';
 import { useSearchParams } from 'next/navigation';
+import Spinner from '@/components/spinner';
 import dynamic from 'next/dynamic';
 
 const LazyAppointmentReceipt = dynamic(
@@ -84,4 +85,16 @@ function AppointmentConfirmation() {
   );
 }
 
-export default AppointmentConfirmation;
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-screen">
+          <Spinner />
+        </div>
+      }
+    >
+      <AppointmentConfirmation />
+    </Suspense>
+  );
+}
