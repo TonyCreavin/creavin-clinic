@@ -24,7 +24,7 @@ export const createUser = async () => {
       data: JSON.parse(JSON.stringify(newUser)),
     };
   } catch (error: any) {
-    console.log('🔥Error creating user', error);
+    // console.log('🔥Error creating user', error);
     return {
       success: false,
       message: 'Error creating user',
@@ -54,7 +54,7 @@ export const getUser = async () => {
       };
     }
   } catch (error: any) {
-    console.log('🔥Error getting user', error);
+    //('🔥Error getting user', error);
     return {
       success: false,
       message: 'Error getting user',

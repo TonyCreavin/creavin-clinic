@@ -10,7 +10,7 @@ async function Dashboard() {
   if (!success) {
     return <Alert message="Error retrieving data" type="error" showIcon />;
   }
-  console.log(data);
+
   return (
     <div className="p-5 flex flex-col gap-5">
       <PageTitle title="Dashboard" />

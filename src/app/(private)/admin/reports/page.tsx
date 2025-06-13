@@ -22,7 +22,7 @@ async function Reports({ searchParams }: ReportsPageProps) {
   if (!success) {
     return <Alert type="error" message="Failed to download data" showIcon />;
   }
-  console.log(data);
+
   return (
     <div className="p-5 flex flex-col gap-5">
       <PageTitle title="Reports" />

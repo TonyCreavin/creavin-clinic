@@ -21,7 +21,6 @@ async function PatientsList({ searchParams }: PatientsListProps) {
   }
 
   const patients: IPatient[] = data;
-  console.log('data', data);
 
   return (
     <div className="p-5">

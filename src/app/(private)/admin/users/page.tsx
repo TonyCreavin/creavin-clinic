@@ -23,7 +23,6 @@ async function UsersPage({ searchParams }: UsersPageProps) {
   }
 
   const users: IUser[] = data;
-  console.log('data', data);
 
   return (
     <div className="p-5">

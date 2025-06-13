@@ -22,7 +22,7 @@ async function DoctorsPage({ searchParams }: DoctorsPageProps) {
   }
 
   const doctors: IDoctor[] = data;
-  console.log('data', data);
+
   return (
     <div className="p-5">
       <div className="flex justify-between items-center">
